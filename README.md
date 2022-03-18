@@ -1,15 +1,7 @@
-# angr-ctf
+# AutomateAllTheThings
 
-Learning angr is hard, and a CTF might make the learning process easier for you CTF maniacs. The challenge binaries come from this project:
+This project contains a series of smaller projects I built when I was learning automated binary analysis. The topics include fuzzing, dynamic taint analysis, symbolic execution, and etc. Specifically, this project includes the following parts:
 
-https://github.com/jakespringer/angr_ctf
-
-Each level contains the following files:
-
-1. A x86 binary that asks for a password. If the password is correct, it prints "Good job.". Otherwise, it prints "Try again.". Our objective is to find the correct password using angr.
-2. A Python script named "scaffold.py". This is the skeleton solution script. Start here and complete its logic.
-3. A Python script named "solve.py". This is the final solution script. Only look at it when you get stuck for too long.
-
-Read the official documentation to get started:
-
-https://docs.angr.io/
+- angr-ctf: learn angr by solving a series of CTF challenges.
+- afl-training: explore various afl techniques by fuzzing a series of binaries.
+- backward-slicer: a backward slicing tool built upon Triton.
