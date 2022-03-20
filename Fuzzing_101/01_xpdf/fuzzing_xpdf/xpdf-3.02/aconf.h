@@ -53,7 +53,7 @@
 /*
  * Full path for the system-wide xpdfrc file.
  */
-#define SYSTEM_XPDFRC "/home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install//etc/xpdfrc"
+#define SYSTEM_XPDFRC "/home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install/etc/xpdfrc"
 
 /*
  * Various include files and functions.

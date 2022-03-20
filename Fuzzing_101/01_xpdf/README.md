@@ -23,7 +23,7 @@ wget https://dl.xpdfreader.com/old/xpdf-3.02.tar.gz && tar -xvzf xpdf-3.02.tar.g
 Build and install Xpdf:
 
 ```shell
-cd xpdf-3.02 && sudo apt update && sudo apt install -y build-essential gcc && ./configure --prefix="$PROJECT/fuzzing_xpdf/install/" && make && make install
+cd xpdf-3.02 && sudo apt update && sudo apt install -y build-essential gcc && ./configure --prefix="$PROJECT/fuzzing_xpdf/install" && make && make install
 ```
 
 Test Xpdf:
@@ -37,7 +37,7 @@ cd $PROJECT/fuzzing_xpdf && mkdir pdf_examples && cd pdf_examples && wget https:
 Remove the old build:
 
 ```shell
-rm -r $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02/ && make clean
+rm -r $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02 && make clean
 ```
 
 Build Xpdf using the **afl-clang-fast** compiler:
@@ -46,15 +46,23 @@ Build Xpdf using the **afl-clang-fast** compiler:
 export LLVM_CONFIG="llvm-config-11" && CC=$(which afl-clang-fast) CXX=$(which afl-clang-fast++) ./configure --prefix="$PROJECT/fuzzing_xpdf/install" && make && make install
 ```
 
+Fix core dump issue:
+
+```shell
+$ su root
+$ echo core >/proc/sys/kernel/core_pattern
+$ exit
+```
+
 Run AFL!
 
 ```shell
 afl-fuzz -i $PROJECT/fuzzing_xpdf/pdf_examples/ -o $PROJECT/fuzzing_xpdf/out/ -s 123 -- $PROJECT/fuzzing_xpdf/install/bin/pdftotext @@ $PROJECT/fuzzing_xpdf/output
 ```
 
-It took me about 7 mins to find 2 crashes:
+I am using Ubuntu 20.04 as a virtual machine in VMware Workstation. It took me about  minutes to find 2 crashes:
 
-![afl](./afl.png)
+![afl]()
 
 The payloads are saved in `$PROJECT/fuzzing_xpdf/out/default/crashes/`.
 

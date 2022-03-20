@@ -10,7 +10,7 @@ SHELL = /bin/sh
 
 DESTDIR =
 
-prefix = /home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install/
+prefix = /home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install
 exec_prefix = ${prefix}
 srcdir = .
 

@@ -8,7 +8,7 @@
 
 SHELL = /bin/sh
 
-prefix = /home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install/
+prefix = /home/ret2basic/AutomateAllTheThings/Fuzzing_101/01_xpdf/fuzzing_xpdf/install
 srcdir = .
 
 
@@ -19,7 +19,7 @@ FOFILIBDIR = ../fofi
 SPLASHSRCDIR = $(srcdir)/../splash
 SPLASHLIBDIR = ../splash
 
-CXXFLAGS = -g -O2 -DHAVE_CONFIG_H -I.. -I$(GOOSRCDIR) -I$(FOFISRCDIR) -I$(SPLASHSRCDIR) -I$(srcdir)          
+CXXFLAGS = -g -O0 -DHAVE_CONFIG_H -I.. -I$(GOOSRCDIR) -I$(FOFISRCDIR) -I$(SPLASHSRCDIR) -I$(srcdir)          
 
 LDFLAGS = 
 

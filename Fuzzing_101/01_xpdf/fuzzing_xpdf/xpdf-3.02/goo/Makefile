@@ -11,8 +11,8 @@ SHELL = /bin/sh
 srcdir = .
 
 
-CFLAGS = -g -O2 -DHAVE_CONFIG_H -I.. -I$(srcdir)
-CXXFLAGS = -g -O2 -DHAVE_CONFIG_H -I.. -I$(srcdir)
+CFLAGS = -g -O0 -DHAVE_CONFIG_H -I.. -I$(srcdir)
+CXXFLAGS = -g -O0 -DHAVE_CONFIG_H -I.. -I$(srcdir)
 
 CC = gcc
 CXX = g++
