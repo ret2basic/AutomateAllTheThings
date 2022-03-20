@@ -121,7 +121,7 @@ Start Eclipse-CDT:
 cd eclipse && ./eclipse
 ```
 
-Once we have started Eclipse-CDT, we need to import our source code into the Project Explorer. For that, we need to go to File -> Import -> and then we need to choose C/C++ -> "Existing Code as Makefile Project". Set "Project Name"=libexif and "Existing Code Location"=`$PROJECT/fuzzing_libexif/exif-exif-0_6_15-release`. Then we need to select "Linux GCC" and browse for the Exif source code folder.
+Once we have started Eclipse-CDT, we need to import our source code into the Project Explorer. For that, we need to go to "File => Import => (choose C/C++) => Existing Code as Makefile Project". Here, we set "Project Name"=libexif and "Existing Code Location"=`/home/ret2basic/AutomateAllTheThings/Fuzzing_101/02_libexif/fuzzing_libexif/exif-exif-0_6_15-release`. Then we need to select "Linux GCC" and browse for the Exif source code folder.
 
 Now we're going to configure the debug parameters. For that we need to go to "Run => Debug Configurations". Go to the "Arguments" tab and provide the saved crash payload as argument. For me, it is:
 
