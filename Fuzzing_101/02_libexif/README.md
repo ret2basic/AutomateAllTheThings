@@ -95,7 +95,7 @@ afl-fuzz -i $PROJECT/fuzzing_libexif/exif-samples-master/jpg/ -o $PROJECT/fuzzin
 
 In about 8 minutes, AFL++ found 14 unique crashes:
 
-[AFL++](https://raw.githubusercontent.com/ret2basic/AutomateAllTheThings/main/Fuzzing_101/02_libexif/AFL.png)
+![AFL++](https://raw.githubusercontent.com/ret2basic/AutomateAllTheThings/main/Fuzzing_101/02_libexif/AFL.png)
 
 ## Triage
 
