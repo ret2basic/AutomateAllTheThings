@@ -60,9 +60,9 @@ Run AFL!
 afl-fuzz -i $PROJECT/fuzzing_xpdf/pdf_examples/ -o $PROJECT/fuzzing_xpdf/out/ -s 123 -- $PROJECT/fuzzing_xpdf/install/bin/pdftotext @@ $PROJECT/fuzzing_xpdf/output
 ```
 
-I am using Ubuntu 20.04 as a virtual machine in VMware Workstation. It took me about  minutes to find 2 crashes:
+I am using Ubuntu 20.04 as a virtual machine in VMware Workstation. It took me about 2 minutes to find 2 crashes:
 
-![afl]()
+![afl](https://raw.githubusercontent.com/ret2basic/AutomateAllTheThings/main/Fuzzing_101/01_xpdf/afl.png)
 
 The payloads are saved in `$PROJECT/fuzzing_xpdf/out/default/crashes/`.
 
@@ -77,25 +77,25 @@ $PROJECT/fuzzing_xpdf/install/bin/pdftotext "$PROJECT/fuzzing_xpdf/out/default/c
 The filenames will be different for each session. For me, it is:
 
 ```shell
-$PROJECT/fuzzing_xpdf/install/bin/pdftotext "$PROJECT/fuzzing_xpdf/out/default/crashes/id:000000,sig:11,src:000349,time:236891,execs:136205,op:havoc,rep:16" $PROJECT/fuzzing_xpdf/output
+$PROJECT/fuzzing_xpdf/install/bin/pdftotext "$PROJECT/fuzzing_xpdf/out/default/crashes/id:000000,sig:11,src:000852,time:109760,execs:82944,op:havoc,rep:8" $PROJECT/fuzzing_xpdf/output
 ```
 
 and:
 
 ```shell
-$PROJECT/fuzzing_xpdf/install/bin/pdftotext "$PROJECT/fuzzing_xpdf/out/default/crashes/id:000001,sig:11,src:000349,time:282507,execs:161195,op:havoc,rep:16" $PROJECT/fuzzing_xpdf/output
+$PROJECT/fuzzing_xpdf/install/bin/pdftotext "$PROJECT/fuzzing_xpdf/out/default/crashes/id:000001,sig:11,src:000852+000695,time:118537,execs:88724,op:splice,rep:16" $PROJECT/fuzzing_xpdf/output
 ```
 
-Digging deeper, we recompile the binary with debug info in order to investigate the crashes in GDB:
+In order to investigate the crashes in GDB, we recompile the binary with debug info:
 
 ```shell
-rm -r $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02/ && make clean && CFLAGS="-g -O0" CXXFLAGS="-g -O0" ./configure --prefix="$PROJECT/fuzzing_xpdf/install/" && make && make install
+rm -r $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02 && make clean && CFLAGS="-g -O0" CXXFLAGS="-g -O0" ./configure --prefix="$PROJECT/fuzzing_xpdf/install" && make && make install
 ```
 
 Run GDB for crash 1:
 
 ```shell
-gdb --args $PROJECT/fuzzing_xpdf/install/bin/pdftotext $PROJECT/fuzzing_xpdf/out/default/crashes/id:000000,sig:11,src:000349,time:236891,execs:136205,op:havoc,rep:16 $PROJECT/fuzzing_xpdf/output
+gdb --args $PROJECT/fuzzing_xpdf/install/bin/pdftotext $PROJECT/fuzzing_xpdf/out/default/crashes/id:000000,sig:11,src:000852,time:109760,execs:82944,op:havoc,rep:8 $PROJECT/fuzzing_xpdf/output
 ```
 
 Type `r` to run the program and hit the crash. Type `bt` to see the backtrace. Here we can see a lot of `Parser::getObj` gets invoked.
@@ -103,7 +103,7 @@ Type `r` to run the program and hit the crash. Type `bt` to see the backtrace. H
 Run GDB for crash 2:
 
 ```shell
-gdb --args $PROJECT/fuzzing_xpdf/install/bin/pdftotext $PROJECT/fuzzing_xpdf/out/default/crashes/id:000001,sig:11,src:000349,time:282507,execs:161195,op:havoc,rep:16 $PROJECT/fuzzing_xpdf/output
+gdb --args $PROJECT/fuzzing_xpdf/install/bin/pdftotext $PROJECT/fuzzing_xpdf/out/default/crashes/id:000001,sig:11,src:000852+000695,time:118537,execs:88724,op:splice,rep:16 $PROJECT/fuzzing_xpdf/output
 ```
 
 Same, type `r` and then type `bt`. Again, a lot of `Parser::getObj` gets invoked.
