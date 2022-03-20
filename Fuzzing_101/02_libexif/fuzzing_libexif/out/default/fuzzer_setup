@@ -1,0 +1,4 @@
+# environment variables:
+AFL_KILL_SIGNAL=9
+# command line:
+'afl-fuzz' '-i' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/02_libexif/fuzzing_libexif/exif-samples-master/jpg/' '-o' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/02_libexif/fuzzing_libexif/out/' '-s' '123' '--' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/02_libexif/fuzzing_libexif/install/bin/exif' '@@'

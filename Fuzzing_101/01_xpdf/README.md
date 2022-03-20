@@ -34,16 +34,10 @@ cd $PROJECT/fuzzing_xpdf && mkdir pdf_examples && cd pdf_examples && wget https:
 
 ## AFL
 
-Remove the old build:
-
-```shell
-rm -r $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02 && make clean
-```
-
 Build Xpdf using the **afl-clang-fast** compiler:
 
 ```shell
-export LLVM_CONFIG="llvm-config-11" && CC=$(which afl-clang-fast) CXX=$(which afl-clang-fast++) ./configure --prefix="$PROJECT/fuzzing_xpdf/install" && make && make install
+rm -rf $PROJECT/fuzzing_xpdf/install && cd $PROJECT/fuzzing_xpdf/xpdf-3.02 && make clean && export LLVM_CONFIG="llvm-config-11" && CC=$(which afl-clang-fast) CXX=$(which afl-clang-fast++) ./configure --prefix="$PROJECT/fuzzing_xpdf/install" && make && make install
 ```
 
 Fix core dump issue:
@@ -62,11 +56,11 @@ afl-fuzz -i $PROJECT/fuzzing_xpdf/pdf_examples/ -o $PROJECT/fuzzing_xpdf/out/ -s
 
 I am using Ubuntu 20.04 as a virtual machine in VMware Workstation. It took me about 2 minutes to find 2 crashes:
 
-![afl](https://raw.githubusercontent.com/ret2basic/AutomateAllTheThings/main/Fuzzing_101/01_xpdf/afl.png)
+![AFL++](https://raw.githubusercontent.com/ret2basic/AutomateAllTheThings/main/Fuzzing_101/01_xpdf/AFL.png)
 
 The payloads are saved in `$PROJECT/fuzzing_xpdf/out/default/crashes/`.
 
-## Crash Analysis
+## Triage
 
 Reproduce the crash:
 

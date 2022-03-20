@@ -1,0 +1,18 @@
+New in 0.6.15:
+
+  * Misc. (build) bug fixes.
+
+
+New since 0.6.9 (2004-05-27):
+
+  * Bug fixes: #994706, #1005652
+
+  * return exit code != 0 in case of invalid command line
+
+  * Updated build system
+
+  * (Cross-)compiles for Windows (mingw32)
+
+  * Partially updated translations
+
+  * Misc. small fixes (see ChangeLog)

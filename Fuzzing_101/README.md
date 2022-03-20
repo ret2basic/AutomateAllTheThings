@@ -16,6 +16,12 @@ Install AFL++:
 cd $HOME && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && export LLVM_CONFIG="llvm-config-11" && make distrib && sudo make install
 ```
 
+Clone this repo:
+
+```shell
+cd ~ && git clone https://github.com/ret2basic/AutomateAllTheThings.git
+```
+
 ## Exercises
 
 | Exercise No.  | Target | CVEs to find | Time estimated | Main topics |
