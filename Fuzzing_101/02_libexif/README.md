@@ -89,9 +89,9 @@ Build exif using afl-clang-lto:
 export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-lto ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install" PKG_CONFIG_PATH=$PROJECT/fuzzing_libexif/install/lib/pkgconfig && make && make install
 ```
 
-# AFL
+# AFL++
 
-Run AFL!
+Run AFL++!
 
 ```shell
 afl-fuzz -i $PROJECT/fuzzing_libexif/exif-samples-master/jpg/ -o $PROJECT/fuzzing_libexif/out/ -s 123 -- $PROJECT/fuzzing_libexif/install/bin/exif @@

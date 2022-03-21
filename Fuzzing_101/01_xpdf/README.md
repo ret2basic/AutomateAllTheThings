@@ -50,9 +50,9 @@ Here `CC` = C compiler name and `CXX` = C++ compiler name. The `--prefix` option
 
 https://thoughtbot.com/blog/the-magic-behind-configure-make-make-install
 
-# AFL
+# AFL++
 
-Run AFL!
+Run AFL++!
 
 ```shell
 afl-fuzz -i $PROJECT/fuzzing_xpdf/pdf_examples/ -o $PROJECT/fuzzing_xpdf/out/ -s 123 -- $PROJECT/fuzzing_xpdf/install/bin/pdftotext @@ $PROJECT/fuzzing_xpdf/output
