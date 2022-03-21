@@ -1,0 +1,6 @@
+/home/ret2basic/AutomateAllTheThings/Fuzzing_101/03_tcpdump/fuzzing_tcpdump/install/sbin/tcpdump
+-vvvvXX
+-ee
+-nn
+-r
+@@

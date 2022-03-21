@@ -1,4 +1,4 @@
-# Fuzzing libexif
+# Fuzzing libexif (afl-clang-lto)
 
 This time we will fuzz **libexif EXIF parsing library**. The goal is to find a crash/PoC for **CVE-2009-3895** and another crash for **CVE-2012-2836** in libexif 0.6.15. In this exercise, we will learn:
 
@@ -6,14 +6,12 @@ This time we will fuzz **libexif EXIF parsing library**. The goal is to find a c
 - To use afl-clang-lto, a collision free instrumentation that is faster and provides better results than afl-clang-fast
 - To use Eclipse IDE as an easy alternative to GDB console for triaging
 
-**Note:** the original tutorial sets libexif 0.6.14 as fuzzing target. However, I can't build and install on my Ubuntu 20.04, so I changed my target to libexif 0.6.15. The fuzzing experience will be the same.
-
 ## Setup
 
-Create a new directory for our project:
+Create a workspace:
 
 ```shell
-export PROJECT=~/AutomateAllTheThings/Fuzzing_101/02_libexif && cd $PROJECT && mkdir fuzzing_libexif && cd fuzzing_libexif
+export PROJECT=~/AutomateAllTheThings/Fuzzing_101/02_libexif && cd $PROJECT && rm -rf fuzzing_libexif && mkdir fuzzing_libexif && cd fuzzing_libexif
 ```
 
 Download and extract libexif-0.6.15:
@@ -22,13 +20,13 @@ Download and extract libexif-0.6.15:
 wget https://github.com/libexif/libexif/archive/refs/tags/libexif-0_6_15-release.tar.gz && tar -xzvf libexif-0_6_15-release.tar.gz
 ```
 
+**Note:** The original tutorial uses libexif 0.6.14 but it doesn't work for me.
+
 Build and install libexif:
 
 ```shell
 cd libexif-libexif-0_6_15-release && sudo apt install autopoint libtool gettext libpopt-dev && autoreconf -fvi && ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install" && make && make install
 ```
-
-## Harness
 
 AFL++ targets an executable that takes user input. In our case, we are fuzzing a library (libexif) and the functions in libexif are not invoked. Therefore, we need an interface application that calls functions in libexif and this application must take user input and exits smoothly. Such an interface application is usually called **harness**.
 
@@ -50,8 +48,6 @@ Test exif command-line:
 $PROJECT/fuzzing_libexif/install/bin/exif
 ```
 
-## Seed Corpus
-
 The seed for exif command-line should be exif samples. We can get some sample images directly from Github:
 
 ```shell
@@ -64,7 +60,7 @@ Test this corpus:
 $PROJECT/fuzzing_libexif/install/bin/exif $PROJECT/fuzzing_libexif/exif-samples-master/jpg/Canon_40D_photoshop_import.jpg
 ```
 
-## AFL
+## Compilation
 
 This time we try a new compiler: **afl-clang-lto**. In general, afl-clang-lto is the best option if  clang/clang++ 11+ is available. Quote from the [afl-clang-lto documentation](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.lto.md):
 
@@ -75,17 +71,25 @@ This time we try a new compiler: **afl-clang-lto**. In general, afl-clang-lto is
 > - AUTODICTIONARY feature (see below)!
 > - If any problems arise, be sure to set AR=llvm-ar RANLIB=llvm-ranlib. Some targets might need LD=afl-clang-lto and others LD=afl-ld-lto.
 
+Clean all previously compiled object files and executables:
+
+```shell
+rm -rf $PROJECT/fuzzing_libexif/install && cd $PROJECT/fuzzing_libexif/libexif-libexif-0_6_15-release && make clean && cd $PROJECT/fuzzing_libexif/exif-exif-0_6_15-release && make clean
+```
+
 Build libexif using afl-clang-lto:
 
 ```shell
-rm -rf $PROJECT/fuzzing_libexif/install && cd $PROJECT/fuzzing_libexif/libexif-libexif-0_6_15-release && make clean && export LLVM_CONFIG="llvm-config-11" && CC=afl-clang-lto ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install/" && make && make install
+export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-lto ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install/" && make && make install
 ```
 
 Build exif using afl-clang-lto:
 
 ```shell
-cd $PROJECT/fuzzing_libexif/exif-exif-0_6_15-release && make clean && export LLVM_CONFIG="llvm-config-11" && CC=afl-clang-lto ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install" PKG_CONFIG_PATH=$PROJECT/fuzzing_libexif/install/lib/pkgconfig && make && make install
+export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-lto ./configure --enable-shared=no --prefix="$PROJECT/fuzzing_libexif/install" PKG_CONFIG_PATH=$PROJECT/fuzzing_libexif/install/lib/pkgconfig && make && make install
 ```
+
+# AFL
 
 Run AFL!
 
