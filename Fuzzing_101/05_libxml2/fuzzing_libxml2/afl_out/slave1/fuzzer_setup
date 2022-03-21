@@ -1,0 +1,4 @@
+# environment variables:
+AFL_KILL_SIGNAL=9
+# command line:
+'afl-fuzz' '-m' 'none' '-i' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/05_libxml2/fuzzing_libxml2/afl_in' '-o' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/05_libxml2/fuzzing_libxml2/afl_out' '-s' '234' '-S' 'slave1' '--' '/home/ret2basic/AutomateAllTheThings/Fuzzing_101/05_libxml2/fuzzing_libxml2/libxml2-2.9.4/xmllint' '--memory' '--noenc' '--nocdata' '--dtdattr' '--loaddtd' '--valid' '--xinclude' '@@'

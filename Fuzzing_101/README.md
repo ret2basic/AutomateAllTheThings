@@ -13,13 +13,25 @@ sudo apt update && sudo apt install -y build-essential python3-dev automake git 
 Install AFL++:
 
 ```shell
-cd $HOME && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && export LLVM_CONFIG="llvm-config-11" && make distrib && sudo make install
+cd $HOME && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && make distrib && sudo make install
 ```
 
 Clone this repo:
 
 ```shell
-cd ~ && git clone https://github.com/ret2basic/AutomateAllTheThings.git
+cd $HOME && git clone https://github.com/ret2basic/AutomateAllTheThings.git
+```
+
+Some exercises will take many hours for AFL++ to find a crash. I recommend running AFL++ in the cloud, for example, a DigitalOcean droplet. In order to run AFL++ in the background, use `screen`. Install `screen`:
+
+```shell
+sudo apt install screen
+```
+
+Start a named session:
+
+```shell
+screen -S
 ```
 
 ## Exercises

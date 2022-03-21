@@ -6,6 +6,20 @@ This time we will fuzz **libexif EXIF parsing library**. The goal is to find a c
 - To use afl-clang-lto, a collision free instrumentation that is faster and provides better results than afl-clang-fast
 - To use Eclipse IDE as an easy alternative to GDB console for triaging
 
+## afl-clang-lto
+
+This time we try a new compiler: **afl-clang-lto**. In general, afl-clang-lto is the best option if  clang/clang++ 11+ is available, because:
+
+1. Use afl-clang-lto/afl-clang-lto++ because it is faster and gives better coverage than anything else that is out there in the AFL world.
+2. You can use it together with llvm_mode: laf-intel and the instrument file listing features and can be combined with cmplog/Redqueen.
+3. It only works with llvm 11+.
+4. AUTODICTIONARY feature!
+5. If any problems arise, be sure to set AR=llvm-ar RANLIB=llvm-ranlib. Some targets might need LD=afl-clang-lto and others LD=afl-ld-lto.
+
+To learn more, read the documentation:
+
+https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.lto.md
+
 ## Setup
 
 Create a workspace:
@@ -61,15 +75,6 @@ $PROJECT/fuzzing_libexif/install/bin/exif $PROJECT/fuzzing_libexif/exif-samples-
 ```
 
 ## Compilation
-
-This time we try a new compiler: **afl-clang-lto**. In general, afl-clang-lto is the best option if  clang/clang++ 11+ is available. Quote from the [afl-clang-lto documentation](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.lto.md):
-
-> This version requires a current llvm 11+ compiled from the GitHub master.
-> - Use afl-clang-lto/afl-clang-lto++ because it is faster and gives better coverage than anything else that is out there in the AFL world.
-> - You can use it together with llvm_mode: laf-intel and the instrument file listing features and can be combined with cmplog/Redqueen.
-> - It only works with llvm 11+.
-> - AUTODICTIONARY feature (see below)!
-> - If any problems arise, be sure to set AR=llvm-ar RANLIB=llvm-ranlib. Some targets might need LD=afl-clang-lto and others LD=afl-ld-lto.
 
 Clean all previously compiled object files and executables:
 
