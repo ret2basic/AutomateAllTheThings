@@ -1,0 +1,12 @@
+prefix=/home/ret2basic/AutomateAllTheThings/Fuzzing_101/05_libxml2/Fuzzing_gimp/gimp-2.8.16/install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+pluginsdir=${exec_prefix}/lib/gegl-0.2
+
+Name: GEGL
+Description: Generic Graphics Library 
+Version: 0.2.0
+Requires: gobject-2.0 gmodule-2.0 gio-2.0 babl
+Libs: -L${libdir} -lgegl-0.2
+Cflags: -I${includedir}/gegl-0.2

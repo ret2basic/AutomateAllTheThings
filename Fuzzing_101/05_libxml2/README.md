@@ -106,12 +106,12 @@ export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-fast CXX=afl-clang-fast++ CF
 
 Run AFL++!
 
-This time we are going to run **two shared instances** of AFL++ and call them *"master"* and *"slave1"* respectively. In order to catch the bug, is mandatory to enable the `--valid` parameter. I also set the dictionary path with the `-x` flag and enabled the deterministic mutations with the `-D` flag (only for the master fuzzer).
+This time we are going to run **two shared instances** of AFL++ and call them *"master"* and *"slave1"* respectively. In order to catch the bug, is mandatory to enable the `--valid` parameter. I also set the dictionary path with the `-x` flag and enabled the deterministic mutations with the `-D` flag (only for the master fuzzer). Also, it may take many hours for AFL++ to find a crash, so it is a good idea to run AFL++ in the cloud. Use the `screen` command to run it in background.
 
 Run the master fuzzer:
 
 ```shell
-export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 123 -x $PROJECT/fuzzing_libxml2/dictionaries/xml.dict -D -M master -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
+screen export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 123 -x $PROJECT/fuzzing_libxml2/dictionaries/xml.dict -D -M master -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
 ```
 
 Spawn another shell and run the slave fuzzer:

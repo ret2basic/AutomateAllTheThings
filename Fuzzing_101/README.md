@@ -1,6 +1,6 @@
 # Fuzzing 101
 
-"Fuzzing 101" is a project where we are going to fuzz 10 real-world applications in order to learn the basics of fuzzing. We are going to use AFL++ throughout the project.
+In this project, we are going to fuzz 10 real-world applications with **AFL++** in order to learn the basics of fuzzing.
 
 ## Setup
 
@@ -14,12 +14,6 @@ Install AFL++:
 
 ```shell
 cd $HOME && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && make distrib && sudo make install
-```
-
-Clone this repo:
-
-```shell
-cd $HOME && git clone https://github.com/ret2basic/AutomateAllTheThings.git
 ```
 
 Some exercises will take many hours for AFL++ to find a crash. I recommend running AFL++ in the cloud, for example, a DigitalOcean droplet. In order to run AFL++ in the background, use `screen`. Install `screen`:

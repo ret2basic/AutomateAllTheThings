@@ -1,0 +1,6 @@
+Name: Gegl Uninstalled
+Description: Gegl Library, Not Installed
+Version: 0.2.0
+Requires: gobject-2.0 gmodule-2.0 gio-2.0
+Libs: ${pc_top_builddir}/${pcfiledir}/gegl/libgegl.la
+Cflags: -I${pc_top_builddir}/${pcfiledir}/.
