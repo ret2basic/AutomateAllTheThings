@@ -1,9 +1,0 @@
-./xmllint
---memory
---noenc
---nocdata
---dtdattr
---loaddtd
---valid
---xinclude
-@@

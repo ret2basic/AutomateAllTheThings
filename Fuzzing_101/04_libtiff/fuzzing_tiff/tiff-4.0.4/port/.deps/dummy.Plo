@@ -1,4 +1,0 @@
-dummy.lo: /usr/lib/llvm-11/lib/clang/11.0.0/share/asan_blacklist.txt \
-  dummy.c
-
-/usr/lib/llvm-11/lib/clang/11.0.0/share/asan_blacklist.txt:

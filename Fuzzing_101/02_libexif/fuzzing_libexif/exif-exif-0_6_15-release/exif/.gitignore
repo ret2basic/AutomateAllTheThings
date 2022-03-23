@@ -1,7 +1,0 @@
-.libs
-.deps
-Makefile.in
-Makefile
-*.o
-exif
-*.sh

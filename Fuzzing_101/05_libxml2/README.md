@@ -77,16 +77,20 @@ $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory $PROJECT/fuzzing_libxml2
 Get some XML samples from Github:
 
 ```shell
-cd $PROJECT/fuzzing_libxml2 && mkdir afl_in && cd afl_in && wget https://raw.githubusercontent.com/antonio-morales/Fuzzing101/main/Exercise%205/SampleInput.xml && cd $PROJECT/fuzzing_libxml2
+cd $PROJECT/fuzzing_libxml2 && mkdir afl_in && cd afl_in && wget https://raw.githubusercontent.com/antonio-morales/Fuzzing101/main/Exercise%205/SampleInput.xml
 ```
 
 Get the XML dictionary provided with AFL++:
 
 ```shell
-cd $PROJECT/fuzzing_libxml2 && mkdir dictionaries && cd dictionaries && wget https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/dictionaries/xml.dict && cd $PROJECT/fuzzing_libxml2
+cd $PROJECT/fuzzing_libxml2 && mkdir dictionaries && cd dictionaries && wget https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/dictionaries/xml.dict
 ```
 
-## Compilation
+## Harness
+
+The original 
+
+## AFL++
 
 Clean all previously compiled object files and executables:
 
@@ -97,37 +101,37 @@ rm -rf $PROJECT/fuzzing_libxml2/install && cd $PROJECT/fuzzing_libxml2/libxml2-2
 Build and intall LibXML2 with ASAN enabled:
 
 ```shell
-export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS="-fsanitize=address" CXXFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" ./configure --prefix="$PROJECT/fuzzing_libxml2/libxml2-2.9.4/install" --disable-shared --without-debug --without-ftp --without-http --without-legacy --without-python LIBS='-ldl' && AFL_USE_ASAN=1 make -j$(nproc) && AFL_USE_ASAN=1 make install
+cd $PROJECT/fuzzing_libxml2 && export LLVM_CONFIG="llvm-config-12" && CC=afl-clang-fast CXX=afl-clang-fast++ CFLAGS="-fsanitize=address" CXXFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" ./configure --prefix="$PROJECT/fuzzing_libxml2/libxml2-2.9.4/install" --disable-shared --without-debug --without-ftp --without-http --without-legacy --without-python LIBS='-ldl' && AFL_USE_ASAN=1 make -j$(nproc) && AFL_USE_ASAN=1 make install
 ```
 
 **Note:** The original tutorial uses afl-clang-lto but it will take forever to find a crash, so I changed it to afl-clang-fast.
 
-## AFL++
-
-Run AFL++!
-
-This time we are going to run **two shared instances** of AFL++ and call them *"master"* and *"slave1"* respectively. In order to catch the bug, is mandatory to enable the `--valid` parameter. I also set the dictionary path with the `-x` flag and enabled the deterministic mutations with the `-D` flag (only for the master fuzzer). Also, it may take many hours for AFL++ to find a crash, so it is a good idea to run AFL++ in the cloud. Use the `screen` command to run it in background.
+Run AFL++! This time we are going to run **two shared instances** of AFL++ and call them *"master"* and *"slave1"* respectively. In order to catch the bug, is mandatory to enable the `--valid` parameter. I also set the dictionary path with the `-x` flag and enabled the deterministic mutations with the `-D` flag (only for the master fuzzer). Also, it may take many hours for AFL++ to find a crash, so it is a good idea to run AFL++ in the cloud. Use the `screen` command to run it in background.
 
 Run the master fuzzer:
 
 ```shell
-screen export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 123 -x $PROJECT/fuzzing_libxml2/dictionaries/xml.dict -D -M master -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
+export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 123 -x $PROJECT/fuzzing_libxml2/dictionaries/xml.dict -D -M master -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
 ```
 
-Spawn another shell and run the slave fuzzer:
+Spawn another shell and run the "slave1" fuzzer:
 
 ```shell
 export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 234 -S slave1 -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
 ```
 
-Within  minutes, AFL++ found crashes:
+Spawn yet another shell and run the "slave2" fuzzer:
 
+```shell
+export PROJECT=~/AutomateAllTheThings/Fuzzing_101/05_libxml2 && afl-fuzz -m none -i $PROJECT/fuzzing_libxml2/afl_in -o $PROJECT/fuzzing_libxml2/afl_out -s 345 -S slave2 -- $PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude @@
+```
 
+It takes forever to find a crash.
 
 ## Triage
 
 Generate the ASAN report:
 
 ```shell
-$PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude "$PROJECT/fuzzing_libxml2/afl_out/default/crashes/"
+$PROJECT/fuzzing_libxml2/libxml2-2.9.4/xmllint --memory --noenc --nocdata --dtdattr --loaddtd --valid --xinclude "$PROJECT/fuzzing_libxml2/afl_out/default/crashes/<payload>"
 ```

@@ -4,28 +4,10 @@ In this project, we are going to fuzz 10 real-world applications with **AFL++** 
 
 ## Setup
 
-Install the dependencies:
-
-```shell
-sudo apt update && sudo apt install -y build-essential python3-dev automake git flex bison libglib2.0-dev libpixman-1-dev python3-setuptools && sudo apt install -y lld-11 llvm-11 llvm-11-dev clang-11 || sudo apt install -y lld llvm llvm-dev clang && sudo apt install -y gcc-$(gcc --version|head -n1|sed 's/.* //'|sed 's/\..*//')-plugin-dev libstdc++-$(gcc --version|head -n1|sed 's/.* //'|sed 's/\..*//')-dev
-```
-
 Install AFL++:
 
 ```shell
-cd $HOME && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && make distrib && sudo make install
-```
-
-Some exercises will take many hours for AFL++ to find a crash. I recommend running AFL++ in the cloud, for example, a DigitalOcean droplet. In order to run AFL++ in the background, use `screen`. Install `screen`:
-
-```shell
-sudo apt install screen
-```
-
-Start a named session:
-
-```shell
-screen -S
+cd && sudo apt update && sudo apt install -y build-essential python3-dev automake cmake git flex bison libglib2.0-dev libpixman-1-dev python3-setuptools && sudo apt install -y lld-11 llvm-11 llvm-11-dev clang-11 || sudo apt install -y lld llvm llvm-dev clang && sudo apt install -y gcc-$(gcc --version|head -n1|sed 's/.* //'|sed 's/\..*//')-plugin-dev libstdc++-$(gcc --version|head -n1|sed 's/.* //'|sed 's/\..*//')-dev && sudo apt install -y ninja-build && git clone https://github.com/AFLplusplus/AFLplusplus && cd AFLplusplus && make distrib && sudo make install
 ```
 
 ## Exercises

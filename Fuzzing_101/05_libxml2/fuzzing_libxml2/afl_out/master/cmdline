@@ -1,9 +1,0 @@
-/home/ret2basic/AutomateAllTheThings/Fuzzing_101/05_libxml2/fuzzing_libxml2/libxml2-2.9.4/xmllint
---memory
---noenc
---nocdata
---dtdattr
---loaddtd
---valid
---xinclude
-@@
